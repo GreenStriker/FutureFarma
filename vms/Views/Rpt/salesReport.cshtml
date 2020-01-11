@@ -140,7 +140,10 @@
 
                                         <tr>
                                             <td class="text-center">
-                                                @item.Sale.CreatedTime.ToString("ddMMM,yyyy")
+                                                @if (item.Sale.CreatedTime != null)
+                                                {
+                                                    @*@item.Sale.CreatedTime.ToString("ddMMM,yyyy")*@
+                                                }
                                             </td>
                                             <td style="text-align:left;" class="text-center">
                                                 @item.Sale.SaleInvoiceNo

@@ -65,7 +65,7 @@
                                     Vat (%)
                                 </th>
                                 <th class="text-center">
-                                    Model No
+                                    Group Name
                                 </th>
                                 <th>
                                     Settings
@@ -95,9 +95,9 @@
                                         }
                                         <td>@product.Name</td>
                                         <td>@product.Code</td>
-                                        <td>@product.Munit.Name</td>
+                                        <td>@if (product.Munit!=null) {@product.Munit.Name}</td>
                                         <td>@product.Vat.Percentage.Value</td>
-                                        <td>@product.ModelNo</td>
+                                        <td>@product.Group.Name</td>
                                         <td>
 
                                             <button data-toggle="tooltip" title="Price Setp" class="pd-setting-ed"> <a asp-action="PriceSetup" asp-route-id="@product.ProductId"><i class="fa fa-money" aria-hidden="true"></i> </a> </button>

@@ -28,7 +28,7 @@ namespace vms.entity.models
         public DateTime? EfectiveTo { get; set; }
         public bool? IsActive { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         public virtual Branch Branch { get; set; }
         public virtual Vendor Vendor { get; set; }

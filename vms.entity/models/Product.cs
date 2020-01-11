@@ -18,7 +18,7 @@ namespace vms.entity.models
         public int ProductId { get; set; }
         public string Name { get; set; }
         public int? VatId { get; set; }
-        public string ModelNo { get; set; }
+        public int? GroupId { get; set; }
         public int? MunitId { get; set; }
         public string Code { get; set; }
         public DateTime? EfectiveFrom { get; set; }
@@ -27,6 +27,7 @@ namespace vms.entity.models
         public int? CreatedBy { get; set; }
         public DateTime? CreatedTime { get; set; }
 
+        public virtual ProductGruop Group { get; set; }
         public virtual MeasureUnit Munit { get; set; }
         public virtual Vat Vat { get; set; }
         public virtual ICollection<Content> Contents { get; set; }
