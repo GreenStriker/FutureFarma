@@ -55,7 +55,7 @@ namespace Inventory.Controllers
         public async Task<IActionResult> Index(int? page, string search = null)
         {
 
-            var data =await _prodService.Query().Include(c => c.Munit).Include(c => c.Vat).Include(c => c.Contents)
+            var data =await _prodService.Query().Include(c => c.Munit).Include(c => c.Vat).Include(c=>c.Group).Include(c => c.Contents)
                 .Where(c => c.IsActive == true).SelectAsync(CancellationToken.None);
             
             string txt = search;
@@ -65,7 +65,7 @@ namespace Inventory.Controllers
                 search = search.ToLower().Trim();
                 data = data.Where(c => c.Name.ToLower().Contains(search)
                                        || (c.Code != null && c.Code.ToLower().Contains(search))
-                                        || (c.ModelNo != null && (c.ModelNo.ToString().Contains(search))));
+                                        );
             }
 
             var pageNumber = page ?? 1;
@@ -277,7 +277,7 @@ namespace Inventory.Controllers
         public async Task<IActionResult> Edit(vmProduct product)
         {
             var editData =await _prodService.GetById(product.ProductId);
-            editData.ModelNo = product.ModelNo;
+            editData.GroupId = product.GroupId;
             editData.Code = product.Code;
             editData.MunitId = product.MunitId;
             editData.VatId = product.VatId;

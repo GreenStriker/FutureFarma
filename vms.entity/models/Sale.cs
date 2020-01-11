@@ -32,7 +32,7 @@ namespace vms.entity.models
         public int? SoldBy { get; set; }
         public bool? IsActive { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         public virtual Branch Branch { get; set; }
         public virtual Customer Customer { get; set; }

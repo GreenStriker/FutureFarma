@@ -34,6 +34,10 @@
       },
       {
          "HasPrimaryKey": true,
+         "Name": "[dbo].[Company]"
+      },
+      {
+         "HasPrimaryKey": true,
          "Name": "[dbo].[Content]"
       },
       {
@@ -103,6 +107,10 @@
       {
          "HasPrimaryKey": true,
          "Name": "[dbo].[Product]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductGruop]"
       },
       {
          "HasPrimaryKey": true,

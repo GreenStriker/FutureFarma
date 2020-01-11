@@ -69,8 +69,8 @@ namespace vms.ioc
 
             services.AddScoped<IReportsRepository, ReportsRepository>();
             services.AddScoped<IReportsService, ReportsService>();
-            //services.AddScoped<ISpGetSalePagedRepository, SpGetSalePagedRepository>();
-            //services.AddScoped<ISpGetSalePagedService, SpGetSalePagedService>();
+            services.AddScoped<IProductGruopRepository, ProductGruopRepository>();
+            services.AddScoped<IProductGruopService, ProductGruopService>();
             //services.AddScoped<IDamageInvoiceListRepository, DamageInvoiceListRepository>();
             //services.AddScoped<IDamageInvoiceListService, DamageInvoiceListService>();
 

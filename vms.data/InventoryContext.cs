@@ -21,6 +21,7 @@ namespace vms.entity.models
         public virtual DbSet<AttendenceDetail> AttendenceDetails { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Content> Contents { get; set; }
         public virtual DbSet<Contenttype> Contenttypes { get; set; }
         public virtual DbSet<CreditNote> CreditNotes { get; set; }
@@ -39,6 +40,7 @@ namespace vms.entity.models
         public virtual DbSet<Payroll> Payrolls { get; set; }
         public virtual DbSet<PayrollDetail> PayrollDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductGruop> ProductGruops { get; set; }
         public virtual DbSet<ProductLog> ProductLogs { get; set; }
         public virtual DbSet<ProductPrice> ProductPrices { get; set; }
         public virtual DbSet<Purchase> Purchases { get; set; }
@@ -178,6 +180,19 @@ namespace vms.entity.models
                 entity.Property(e => e.Sec).HasMaxLength(50);
 
                 entity.Property(e => e.Third).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Company>(entity =>
+            {
+                entity.ToTable("Company");
+
+                entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.MobileNo).HasMaxLength(50);
+
+                entity.Property(e => e.Name).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Content>(entity =>
@@ -574,21 +589,24 @@ namespace vms.entity.models
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
-                entity.Property(e => e.Code).HasMaxLength(50);
+                entity.Property(e => e.Code).HasMaxLength(500);
 
                 entity.Property(e => e.EfectiveFrom).HasColumnType("date");
 
                 entity.Property(e => e.EfectiveTo).HasColumnType("date");
 
-                entity.Property(e => e.ModelNo).HasMaxLength(50);
-
                 entity.Property(e => e.MunitId).HasColumnName("MUnitId");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(50);
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.VatId).HasColumnName("vatID");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.GroupId)
+                    .HasConstraintName("FK_Product_ProductGruop");
 
                 entity.HasOne(d => d.Munit)
                     .WithMany(p => p.Products)
@@ -599,6 +617,15 @@ namespace vms.entity.models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.VatId)
                     .HasConstraintName("FK_Product_vat");
+            });
+
+            modelBuilder.Entity<ProductGruop>(entity =>
+            {
+                entity.HasKey(e => e.GroupId);
+
+                entity.ToTable("ProductGruop");
+
+                entity.Property(e => e.GroupId).HasColumnName("GroupID");
             });
 
             modelBuilder.Entity<ProductLog>(entity =>
@@ -1141,11 +1168,18 @@ namespace vms.entity.models
 
                 entity.Property(e => e.Address).HasMaxLength(50);
 
+                entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+
                 entity.Property(e => e.ContactNo).HasMaxLength(50);
 
                 entity.Property(e => e.Description).HasMaxLength(50);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.Vendors)
+                    .HasForeignKey(d => d.CompanyId)
+                    .HasConstraintName("FK_Vendor_Company");
             });
 
             OnModelCreatingPartial(modelBuilder);
