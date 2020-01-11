@@ -1,0 +1,314 @@
+﻿@model vms.entity.viewModels.ReportsViewModel.ProfitReport
+
+
+@{
+    ViewData["Title"] = "Profit Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Inventory.Utility
+@using vms.entity.viewModels
+@{
+    var session = Context.Session.GetComplexData<vms.entity.viewModels.vmSession>("session");
+}
+
+
+
+<div class="product-status mg-tb-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-status-wrap">
+                    <h4>Profit Report</h4>
+
+                    @using (Html.BeginForm())
+                    {
+
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>From Date</label>
+                                    <input class="form-control" autocomplete="off" id="FromDate" name="FromDate" value="@Model.fromDate" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>To Date</label>
+                                    <input class="form-control" autocomplete="off" id="ToDate" name="ToDate" value="@Model.toDate" type="text">
+                                </div>
+                            </div>
+                            @*<div class="col-md-2">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <input type="text" class="form-control" id="Product" name="Product" value="@ViewBag.searchProduct">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Vendor</label>
+                        <input type="text" class="form-control" id="Vendor" name="Vendor" value="@ViewBag.searchVendor">
+                    </div>
+                </div>*@
+
+                            <div class="col-md-2">
+                                <div class="form-group pull-left">
+                                    <input class="btn  btn-success" style="margin-top:25px;" type="submit" value="View Report" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group pull-left">
+                                    <input id="btnprint" class="btn  btn-success" style="margin-top:25px;" type="button" value="Print" />
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    }
+
+
+                </div>
+                </div>
+            </div>
+
+            <br />
+
+            <div id="print">
+                
+
+                    <div class="col-xs-12">
+                        <div class="row " style="text-align:center">
+
+                            <h3>@session.BranchName</h3>
+                            <h4>Profit Report From : @Model.fromDate.ToString("dd-MMM-yyyy") ##  To: @Model.toDate.ToString("dd-MMM-yyyy")</h4>
+                            <div class="col-xs-4">
+                                <h4>Total Income : @Model.profit.TotalCredit  </h4>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <h4>Total Expence : @{ var ex = Model.profit.TotalExpence + Model.profit.TotalPurchasePay; } @ex </h4>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4>Total Profit : @{ var pro = Model.profit.TotalCredit - ex; } @pro </h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-xs-6">
+
+
+                            <table class="table table-bordered">
+                                <thead style="background-color:lightgrey;">
+
+                                    <tr>
+                                        <th>
+
+                                            Expence Name
+
+
+                                        </th>
+
+
+                                        <th>
+
+                                            Amount
+
+
+                                        </th>
+
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td>Purchase Expence</td>
+                                        <td>@Model.profit.TotalPurchasePay</td>
+
+
+                                    </tr>
+
+
+                                    <tr>
+
+                                        <td>Other Expence</td>
+                                        <td>@Model.profit.TotalExpence</td>
+
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+
+
+                        </div>
+
+
+                        <div class="col-xs-6">
+                            <table class="table table-bordered">
+                                <thead style="background-color:lightgrey;">
+                                    <tr>
+                                        <th>
+
+                                            Income Name
+
+
+                                        </th>
+
+
+                                        <th>
+
+                                            Amount
+
+
+                                        </th>
+
+
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td>Sales Income</td>
+                                        <td>@Model.profit.TotalCredit</td>
+
+
+                                    </tr>
+
+
+
+                                </tbody>
+
+                            </table>
+
+
+                        </div>
+                       
+
+
+                            <div class="col-xs-12 pull-right">
+                                <table class="table table-bordered">
+                                    <thead style="background-color:lightgrey;">
+                                        <tr>
+                                            <th>
+
+                                                On Accounts (DUE)
+
+
+                                            </th>
+
+
+                                            <th>
+
+                                                Amount
+
+
+                                            </th>
+
+
+
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td>Purchase Payable</td>
+                                            <td>@Model.profit.TotalPayableAmount</td>
+
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td>Sales Reciveble</td>
+                                            <td>@Model.profit.TotalReciv</td>
+
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+
+                           
+                        </div>
+                    </div>
+
+               
+            </div>
+        
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+    <script>
+
+        $("#FromDate").datepicker();
+        $("#FromDate").datepicker('option', 'dateFormat', 'dd M, yy');
+
+        $("#ToDate").datepicker();
+        $("#ToDate").datepicker('option', 'dateFormat', 'dd M, yy');
+
+    </script>
+
+    <script type="text/javascript">
+        $("#btnprint").click(function () {
+
+            var restorepage = $('body').html();
+            var printcontent = $('#print').clone();
+            $('body').empty().html(printcontent);
+            window.print();
+            $('body').html(restorepage);
+        });
+    </script>
+}

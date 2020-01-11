@@ -1,0 +1,210 @@
+﻿{
+   "ContextClassName": "InventoryContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "DoNotCombineNamespace": false,
+   "IdReplace": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "models",
+   "ProjectRootNamespace": "vms.entity",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AdvancedSalary]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Atendence]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AttendenceDetails]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Branch]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Color]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Content]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Contenttype]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[CreditNote]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[CreditNoteDetail]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Customer]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DebitNote]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DebitNoteDetail]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Employe]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Expence]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ExpenceType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Incentive]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[MeasureUnit]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Overtime]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[payment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PaymentMethod]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Payroll]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PayrollDetails]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Product]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductLog]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductPrice]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Purchase]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PurchaseContent]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[purchaseDetail]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PurchasePayment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RewardPoint]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Rights]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RightsCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Role]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RoleRights]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[salary]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SaleContent]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SalePayment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Sales]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SalesDetails]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Settings]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Stock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[StocktypeId]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[theme]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[User]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[UserType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[vat]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Vendor]"
+      }
+   ],
+   "UseDatabaseNames": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseSpatial": false
+}

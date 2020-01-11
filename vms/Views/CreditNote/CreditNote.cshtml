@@ -1,0 +1,294 @@
+﻿@model vms.entity.viewModels.VmSalesDetail
+
+@{
+    ViewData["Title"] = "CreditNote";
+
+    var i = 1;
+    decimal vatTotal = 0;
+    decimal total = 0;
+}
+
+<input type="hidden" class="form-control" id="SalesId" name="SalesId" value="@Model.Sale.SalesId" />
+
+<input type="hidden" class="form-control" id="ProductId" name="ProductId" />
+<div class="single-product-tab-area mg-tb-15">
+
+    <div class="single-pro-review-area">
+        <div class="container-fluid">
+            <h4 style="padding-left:15px;">Sales Return</h4>
+            <form id="creditNoteFrm">
+                <div class="row">
+
+                    <div class="col-md-12 ">
+
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input">
+                                <div>
+                                    <input type="text" class="form-control" id="VoucherNo" name="VoucherNo">
+                                    <label style="color:#327ad5;" for="form_control">Voucher No<span class="label-color">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input has-info">
+                                <input type="text" class="form-control" id="ReasonOfReturn" name="ReasonOfReturn">
+                                <label style="color:#327ad5;" for="form_control">Reason Of Return</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input">
+                                <div>
+                                    <input type="text" class="form-control" id="ReturnDate" name="ReturnDate" value="@DateTime.Now">
+                                    <label style="color:#327ad5;" for="form_control">Return Date<span class="label-color">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+
+                <div class="col-md-12 ">
+                    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+                    <table class="table table-bordered" id="creditDetails">
+                        <thead>
+                            <tr>
+                                <th hidden></th>
+                                <th hidden></th>
+                                <th>Serial</th>
+                                <th>Product</th>
+                                <th>Qty.</th>
+                                <th>Return Qty.</th>
+                                <th>Amount</th>
+                                <th style="width: 100px">Unit</th>
+                                <th> Price</th>
+                                <th>VAT(%)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.SalesDetails)
+                            {
+
+                                <tr id="@item.SalesDetailId">
+                                    <td hidden>@item.SalesDetailId</td>
+                                    <td hidden></td>
+                                    <td>@i</td>
+                                    <td>@item.Product.Name</td>
+                                    <td class='Quantity'>
+                                        @item.Qty
+                                    </td>
+                                    <label id="MaxQty" name="MaxQty" class="MaxQty" style="display:none">@item.Qty</label>
+                                    <td class="form-group form-md-line-input col-md-2">
+                                        <div>
+                                            @*onkeypress="preventInput(event,@item.Quantity,this)"*@
+                                            <input type="text" class="form-control" name="ReturnQuantity" id="returnQty#@item.SalesDetailId" />
+                                        </div>
+                                    </td>
+                                    <td> @((item.UnitPrice * item.Qty.Value))</td>
+                                    <td style="width: 100px">@*@item.MeasurementUnit.Name*@</td>
+                                    <td>@item.UnitPrice</td>
+                                    <td>@(item.Vatpercent)</td>
+                                </tr>
+                                i++;
+                                vatTotal += item.Vatpercent.Value;
+                                total += item.UnitPrice.Value;
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">Total</td>
+                                <td><label id="TotalPrice" name="TotalPrice" />@total</td>
+                                <td colspan="1"><label id="TotalVat" name="TotalVat" />@vatTotal</td>
+
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds">
+                            <button type="button" data-requiredconfirmation="true" id="save" class="btn btn-primary waves-effect waves-light m-r-10">
+                                Save
+                            </button>
+
+                            <a href="~/Purchase/Index" class="btn btn-warning waves-effect waves-light">Discard</a>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+            @section Scripts{
+                <script src="~/js/jquery-ui.js"></script>
+                <script>
+        var CreditNote = {
+            CreditNoteDetails: [],
+
+            GetCreditDetails: function () {
+
+                var table = $("#creditDetails tbody");
+
+                table.find('tr').each(function (i, el) {
+                    var $tds = $(this).find('td');
+                    var data = new Object();
+                    var quantity = $tds.eq(4).text();
+                    var qty = $(this).find('td input:first').val();
+                    if (qty > 0 && parseInt(quantity) >= qty) {
+                        data.SalesDetailId = $tds.eq(0).text();
+                        data.MeasurementUnitId = $tds.eq(1).text();
+                        data.ReturnQuantity = qty;
+                        CreditNote.CreditNoteDetails.push(data);
+                    }
+
+                });
+            },
+            isNumber: function(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            },
+            Save: function () {
+                var SalesId = $('#SalesId').val();
+                   var ReasonOfReturn = $('#ReasonOfReturn').val();
+                var ReturnDate = $('#ReturnDate').val();
+                var VoucherNo = $('#VoucherNo').val();
+                   CreditNote.GetCreditDetails();
+                var reqEntry = new Object();
+                reqEntry.SalesId = SalesId;
+                   reqEntry.ReasonOfReturn = ReasonOfReturn;
+                reqEntry.ReturnDate = ReturnDate;
+                reqEntry.VoucherNo = VoucherNo;
+                   reqEntry.CreditNoteDetails = CreditNote.CreditNoteDetails;
+
+                   $.ajax({
+                       url: '@Url.Action("CreditNoteSave", "CreditNote")',
+                       dataType: "json",
+                       type: "POST",
+                       data: { vm: reqEntry },
+                       beforeSend: function () {
+                           $("#loading").show();
+                       },
+                       success: function (result) {
+                           $("#loading").hide();
+
+                           if (result == false) {
+                               alert("Please add atleast on purchase Details");
+                           }
+                           else {
+                               window.location.href = '@Url.Action("Index", "Sale")';
+                           }
+                       },
+                       error: function (x, e) {
+                           $("#loading").hide();
+                           CreditNote.CreditNoteDetails.splice(0, CreditNote.CreditNoteDetails.length);
+                           alert('error');
+
+
+                       }
+                   });
+            }
+        }
+        $(document).ready(function() {
+            $("#ReturnDate").datepicker();
+            $("#ReturnDate").datepicker('option', 'dateFormat', 'dd M, yy');
+            //CreditNote.GetCreditDetails();
+            $('#creditNoteFrm').validate({
+                errorClass: 'help-block animation-slideDown', // You can change the animation class for a different entrance animation - check animations page
+                errorElement: 'div',
+                errorPlacement: function (error, e) {
+                    e.parents('.form-group >div').append(error);
+                },
+                highlight: function (e) {
+                    //$(e).parent().addClass('has-error');
+                    $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
+                    $(e).closest('.help-block').remove();
+                },
+
+                success: function (e) {
+                    e.closest('.form-group').removeClass('has-success has-error');
+                    e.closest('.help-block').remove();
+                },
+                rules: {
+                    VoucherNo: {
+                        required: true,
+                        maxlength:50
+                    },
+                    ReturnDate: {
+                        required: true,
+                        date: true
+                    },
+                    ReturnQuantity: {
+                        required: true,
+                        greaterThan: true,
+                        number: true
+
+
+                    }
+
+
+                },
+                messages: {
+                    VoucherNo: {
+                        required: 'Please provide VoucherNo',
+                        maxlength: 'Value Can not be more than 50 char'
+                    },
+                    ReturnDate: {
+                        required: 'Please provide ReturnDate',
+                        date: 'Provide a valid Date'
+
+                    },
+                    ReturnQuantity: {
+                        required: 'Please provide Quantity',
+                        number:'Enter Number'
+                    }
+
+
+
+                }
+            });
+        });
+        $.validator.addMethod("greaterThan", function (value, element, param) {
+
+            var val_a = parseInt($("#MaxQty").text());
+
+            return this.optional(element)
+                || (parseInt(value) != 0 && parseInt(value) <= val_a);
+        }, "Please Check Quantity");
+        $('#save').click(function () {
+            if ($("#creditNoteFrm").valid()) {
+                if (confirm('Are you sure?')) {
+                    CreditNote.Save();
+                    return true
+                }
+            }
+            else {
+                return false;
+            }
+
+        });
+        function preventInput(event, t, cValue) {
+            var qty = t;
+            var x = event.charCode || event.keyCode;  // Get the Unicode value
+            var y = String.fromCharCode(x);  // Convert the value into a character
+            var getQty = cValue.value + y;
+            if (!CreditNote.isNumber(getQty) || qty < getQty) {
+                alert("Qty Exceed!");
+                event.preventDefault();
+            }
+
+        }
+                </script>
+
+
+            }

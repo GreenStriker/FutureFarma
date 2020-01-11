@@ -1,0 +1,289 @@
+﻿@model vms.entity.viewModels.VmPurchaseDetail
+
+@{
+    ViewData["Title"] = "DebitNote";
+
+    var i = 1;
+    decimal vatTotal = 0;
+    decimal total = 0;
+}
+
+<input type="hidden" class="form-control" id="PurchaseId" name="PurchaseId" value="@Model.Purchase.PurchaseId" />
+
+<input type="hidden" class="form-control" id="ProductId" name="ProductId" />
+
+<div class="single-product-tab-area mg-tb-15">
+
+    <div class="single-pro-review-area">
+        <div class="container-fluid">
+            <h4  style="padding-left:15px;">Sales Return</h4>
+            <form id="debitNoteFrm">
+                <div class="row">
+
+                    <div class="col-md-12 ">
+
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input">
+                                <div>
+                                    <input type="text" class="form-control" id="VoucherNo" name="VoucherNo">
+                                    <label for="form_control" style="color:#327ad5;">Voucher No<span class="label-color">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input">
+                                <div>
+                                    <input type="text" class="form-control" id="ReasonOfReturn" name="ReasonOfReturn">
+                                    <label for="form_control" style="color:#327ad5;">Reason Of Return</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 ">
+                            <div class="form-group form-md-line-input">
+                                <div>
+                                    <input type="text" class="form-control" id="ReturnDate" name="ReturnDate" value="@DateTime.Now">
+                                    <label for="form_control" style="color:#327ad5;">Return Date<span class="label-color">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+
+                <div class="col-md-12 ">
+                    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+                    <table class="table table-bordered" id="debitDetails">
+                        <thead>
+                            <tr>
+                                <th hidden></th>
+                                <th hidden></th>
+                                <th>Serial</th>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Return Qty</th>
+                                <th>Amount</th>
+                                <th style="width: 100px">Unit</th>
+                                <th> Price</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.PurchaseDetails)
+                            {
+
+                                <tr id="@item.PurchaseDetailId">
+                                    <td hidden>@item.PurchaseDetailId</td>
+                                    <td hidden></td>
+                                    <td>@i</td>
+                                    <td>@item.Product.Name</td>
+                                    <td class='Quantity'>
+                                        @item.Qty
+                                    </td>
+                                    <label id="MaxQty" name="MaxQty" class="MaxQty" style="display:none">@item.Qty</label>
+
+                                    <td class="form-group form-md-line-input col-md-2">
+                                        <div>
+                                            @*onkeypress="preventInput(event,@item.Quantity,this)"*@
+                                            <input type="text" value="0" class="form-control" name="ReturnQuantity" id="returnQty#@item.PurchaseDetailId" />
+                                        </div>
+                                    </td>
+                                    <td> @((item.Amount * item.Qty))</td>
+                                    <td style="width: 100px">@*@item.MeasurementUnit.Name*@</td>
+                                    <td>@item.Amount</td>
+
+                                </tr>
+                                i++;
+
+                                total += item.Amount.Value;
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">Total</td>
+                                <td><label id="TotalPrice" name="TotalPrice" />@total</td>
+                                <td colspan="1"><label id="TotalVat" name="TotalVat" />@vatTotal</td>
+
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds">
+                            <button type="button" data-requiredconfirmation="true"  id="save" class="btn btn-primary waves-effect waves-light m-r-10">
+                                Save
+                            </button>
+
+                            <a href="~/Purchase/Index" class="btn btn-warning waves-effect waves-light">Discard</a>
+
+                        </div>
+                    </div>
+                </div>
+
+               
+            </form>
+        </div>
+    </div>
+</div>
+            @section Scripts{
+                <script src="~/js/jquery-ui.js"></script>
+                <script>
+        var DebitNote = {
+            DebitNoteDetails: [],
+            GetDebitDetails: function () {
+        debugger
+                var table = $("#debitDetails tbody");
+
+                table.find('tr').each(function (i, el) {
+                    var $tds = $(this).find('td');
+                    var data = new Object();
+                    var quantity = $tds.eq(4).text();
+                    var qty = $(this).find('td input:first').val();
+                    if (qty > 0 && parseInt(quantity) >= qty) {
+                        data.PurchaseDetailId = $tds.eq(0).text();
+                        data.MeasurementUnitId = $tds.eq(1).text();
+                        data.ReturnQuantity = qty;
+                        DebitNote.DebitNoteDetails.push(data);
+                    }
+
+                });
+            },
+            isNumber: function(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            },
+            Save: function () {
+                   var PurchaseId = $('#PurchaseId').val();
+                   var ReasonOfReturn = $('#ReasonOfReturn').val();
+                var ReturnDate = $('#ReturnDate').val();
+                var VoucherNo = $('#VoucherNo').val();
+                   DebitNote.GetDebitDetails();
+                   var reqEntry = new Object();
+                   reqEntry.PurchaseId = PurchaseId;
+                   reqEntry.ReasonOfReturn = ReasonOfReturn;
+                   reqEntry.ReturnDate = ReturnDate;
+                   reqEntry.VoucherNo = VoucherNo;
+                   reqEntry.DebitNoteDetails = DebitNote.DebitNoteDetails;
+
+                   $.ajax({
+                       url: '@Url.Action("DebitNoteSave", "DebitNote")',
+                       dataType: "json",
+                       type: "POST",
+                       data: { vm: reqEntry },
+                       beforeSend: function () {
+                           $("#loading").show();
+                       },
+                       success: function (result) {
+                           $("#loading").hide();
+
+                           if (result == false) {
+                               alert("Qty Exceeded");
+                           }
+                           else {
+                               window.location.href = '@Url.Action("Index", "Purchase")';
+                           }
+                       },
+                       error: function (x, e) {
+                           $("#loading").hide();
+                           DebitNote.DebitNoteDetails.splice(0, DebitNote.DebitNoteDetails.length);
+                           alert('error');
+
+
+                       }
+                   });
+            }
+        }
+        $(document).ready(function() {
+            $("#ReturnDate").datepicker();
+            $("#ReturnDate").datepicker('option', 'dateFormat', 'dd M, yy');
+            //DebitNote.GetCreditDetails();
+
+            $('#debitNoteFrm').validate({
+                errorClass: 'help-block animation-slideDown',
+                errorElement: 'div',
+                errorPlacement: function (error, e) {
+                    e.parents('.form-group >div').append(error);
+                },
+                highlight: function (e) {
+
+                    $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
+                    $(e).closest('.help-block').remove();
+                },
+
+                success: function (e) {
+                    e.closest('.form-group').removeClass('has-success has-error');
+                    e.closest('.help-block').remove();
+                },
+                rules: {
+
+                    ReturnDate: {
+                        required: true,
+                        date: true
+                    },
+                    ReturnQuantity: {
+                        required: true,
+                        greaterThan: true,
+                        number: true
+                    }
+                },
+                messages: {
+
+                    ReturnDate: {
+                        required: 'Please provide ReturnDate',
+                        date: 'Provide a valid Date'
+
+                    },
+                    ReturnQuantity: {
+                        required: 'Please provide Quantity',
+                        number:'Enter Number'
+                    }
+
+
+
+                }
+            });
+            $.validator.addMethod("greaterThan", function (value, element, param) {
+
+                var val_a = parseInt($("#MaxQty").text());
+
+                return this.optional(element)
+                    || (parseInt(value)!=0 && parseInt(value) <= val_a);
+            }, "Please Check Quantity");
+        });
+
+        $('#save').click(function () {
+            if ($("#debitNoteFrm").valid()) {
+                if (confirm('Are you sure?')) {
+                    DebitNote.Save();
+                    return true
+                }
+            }
+            else {
+                return false;
+            }
+
+        });
+        function preventInput(event, t, cValue) {
+
+            var qty = t;
+            var x = event.charCode || event.keyCode;  // Get the Unicode value
+            var y = String.fromCharCode(x);// Convert the value into a character
+            var getQty = cValue.value + y;
+            if (!DebitNote.isNumber(getQty) || qty < getQty) {
+                alert("Qty Exceed!!");
+                event.preventDefault();
+            }
+
+        }
+                </script>
+
+
+            }
+

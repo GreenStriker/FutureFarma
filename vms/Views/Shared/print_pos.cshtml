@@ -1,0 +1,133 @@
+﻿@using System.Data
+@model vms.entity.models.Sale
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>print</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Novus Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Bootstrap Core CSS -->
+    @*<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />*@
+    <!-- font CSS -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <!--webfonts-->
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!--main css -->
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/print.css" rel='stylesheet' type='text/css' />
+
+    <!--animate-->
+    <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+    <script src="js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <!-- js-->
+    @*<script src="js/jquery-1.11.1.min.js"></script>*@
+    <script src="js/modernizr.custom.js"></script>
+
+</head>
+<body id="page-body">
+    <div class="container-fluid" id="myDiv">
+        <div class="panel panel-color">
+            <div class="panel-head">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="shironam text-center">
+                            <img src="~/img/logo/logo.png" />
+                            @*<img src="~/img/logo.png" alt="shop-logo"/>*@
+
+                        </div>
+                        <h3 class="text-center">Future Soft Bd</h3>
+                        <p class="text-center">@*@ViewBag.branchName*@</p>
+                        <p class="text-center">Address</p>
+                        <div class="col-sm-6">
+                            <p><b>Invoice No:</b> @*@ViewBag.invoice*@</p>
+                            <p><b>Date:</b> @*@ViewBag.date*@</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p><b>Customer Name:</b> @*@ViewBag.customerName*@</p>
+                            <p><b>Contact No:</b> @*@ViewBag.customerContactNo*@</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tb_bd" data-example-id="bordered-table">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SL</th>
+                            <th>Model No</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            @*<th>Discount</th>*@
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>123</td>
+                        <td>shirt</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1250</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>12345</td>
+                        <td>pant</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1000</td>
+                    </tr>
+
+                </table>
+                <form class="pos">
+                    @*<label>Total Amount	: </label> <small>@ViewBag.totalSalePrice</small><br>
+                        <label>Discount : </label> <small>@ViewBag.discount</small><br>
+                        <label>Vat : </label> <small>@ViewBag.vat</small><br>
+                        <label>Grand Total Amount : </label> <small>@ViewBag.totalPayable</small><br>
+                        <label>Paid Amount : </label> <small>@ViewBag.paidAmount</small><br>
+                        <label>Due Amount : </label> <small>@ViewBag.dueAmount</small><br>
+                        <p class="text-center"><strong>In Word : </strong>@ViewBag.amountInWord</p>*@
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <div class="col-sm-4">
+                        <p>Customer signature</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="text-center print btn btn-default" onclick="Print('myDiv')"><strong>Print</strong></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Authorize signature</p>
+                    </div>
+                    <p class="text-center"><strong>N.B : Delivery product is not returnable</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.js"></script>
+    <script>
+        function Print(el) {
+            var restorepage = $('body').html();
+            var printcontent = $('#' + el).clone();
+            var enteredtext = $('#text').val();
+            $('body').empty().html(printcontent);
+            window.print();
+            $('body').html(restorepage);
+            $('#text').html(enteredtext);
+        }
+    </script>
+</body>
+</html>

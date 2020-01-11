@@ -1,0 +1,271 @@
+﻿@model vms.entity.viewModels.ReportsViewModel.vmPurDetails
+@*@using X.PagedList.Mvc.Core;
+    @using X.PagedList;*@
+@using vms.entity.viewModels;
+@{
+    ViewData["Title"] = "PURCHASE INFORMATION";
+
+}
+
+@{
+    var session = Context.Session.GetComplexData<vms.entity.viewModels.vmSession>("session");
+}
+@using Inventory.Utility
+
+<div class="product-status mg-tb-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-status-wrap">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="product-status-wrap">
+                                <h4>PURCHASE Report</h4>
+
+                                @using (Html.BeginForm())
+                                {
+
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>From Date</label>
+                                        <input class="form-control" autocomplete="off" id="FromDate" name="FromDate" value="@Model.FromDate" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>To Date</label>
+                                        <input class="form-control" autocomplete="off" id="ToDate" name="ToDate" value="@Model.ToDate" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Type Product Name to Filter:</label>
+                                        <input type="text" class="form-control" id="searchtext" name="searchtext" value="@Model.searchtext">
+                                    </div>
+                                </div>
+                                @*<div class="col-md-2">
+            <div class="form-group">
+                <label>Product</label>
+                <input type="text" class="form-control" id="Product" name="Product" value="@ViewBag.searchProduct">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Vendor</label>
+                <input type="text" class="form-control" id="Vendor" name="Vendor" value="@ViewBag.searchVendor">
+            </div>
+        </div>*@
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group pull-right">
+                                        <input class="btn  btn-success" style="margin-top:25px;" type="submit" value="View Report" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group pull-left">
+                                        <input id="btnprint" class="btn  btn-success" style="margin-top:25px;" type="button" value="Print" />
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div id="print">
+
+
+
+                        <div class="col-xs-12">
+                            <div class="row " style="text-align:center">
+
+                                <h3>@session.BranchName</h3>
+                                <h4>Purchase Report From : @Model.FromDate.ToString("dd-MMM-yyyy") ##  To: @Model.ToDate.ToString("dd-MMM-yyyy") </h4>
+
+                            </div>
+                        </div>
+
+
+
+                        <table class="table  table-bordered table-striped" ">
+                            <thead style="background-color:lightskyblue">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Invoice</th>
+                                    <th>Ven.</th>
+                                    <th>mobile</th>
+                                    <th>Product</th>
+                                    <th>QTY</th>
+                                    <th>U.P</th>
+                                    @*<th>Vat</th>*@
+                                    <th>Disc:</th>
+                                    <th>Amount</th>
+
+
+
+                                </tr>
+                            </thead>
+                            @{
+
+                                decimal? tvat = 0;
+                                decimal? tAmount = 0;
+                                decimal? tqty = 0;
+                                decimal? tdis = 0;
+
+
+
+                            }
+                            @if (Model.Listsale.Any())
+                            {
+                                <tbody>
+                                    @foreach (var item in Model.Listsale)
+                                    {
+                                        var x = (item.Amount * item.Qty) - item.DiscountPerItem;
+
+                                        //tvat = tvat + item.Vatpercent;
+                                        tAmount = tAmount + x;
+                                        tqty = tqty + item.Qty;
+                                        tdis = tdis + item.DiscountPerItem;
+
+
+                                        <tr>
+                                            <td class="text-center">
+                                                @item.Purchase.CreatedTime.ToString("ddMMM,yyyy")
+                                            </td>
+                                            <td style="text-align:left;" class="text-center">
+                                                @item.Purchase.PurchaseInvoice
+                                            </td>
+
+                                            <td style="text-align:left;" class="text-center">
+                                                @if (item.Purchase.Vendor != null)
+                                                {@item.Purchase.Vendor.Name}
+                                            else
+                                            { <span>----</span>}
+
+                                            </td>
+
+                                            <td style="text-align:left;" class="text-center">
+                                                @if (item.Purchase.Vendor != null)
+                                                {@item.Purchase.Vendor.ContactNo}
+                                            else
+                                            { <span>----</span>}
+                                            </td>
+                                            <td style="text-align:left;" class="text-center">
+                                                @item.Product.Name
+                                            </td>
+                                            <td class="text-center">
+                                                @item.Qty
+                                            </td>
+                                            <td style="text-align:right;" class="text-center">
+                                                @item.Amount
+                                            </td>
+
+                                            @*<td style="text-align:right;" class="text-center">
+                                                @item.Vatpercent
+                                            </td>*@
+
+                                            <td style="text-align:right;" class="text-center">
+                                                @item.DiscountPerItem
+                                            </td>
+
+                                            <td style="text-align:right;" class="text-center">
+
+                                                @x
+                                            </td>
+                                        </tr>
+
+
+                                    }
+
+
+                                    <tr style="background-color:lightcoral">
+                                        <td colspan="5">Total :</td>
+
+                                        <td>@tqty</td>
+                                        <td> -- </td>
+                                        @*<td style="text-align:right;">@tvat</td>*@
+                                        <td style="text-align:right;">@tdis</td>
+                                        <td style="text-align:right;">@tAmount</td>
+
+
+
+
+
+
+                                    </tr>
+
+
+
+
+
+
+
+                                </tbody>
+
+
+
+
+
+                            }
+
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10">
+                                        <p style="text-align: center">No Records Found</p>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#FromDate").datepicker();
+            $("#FromDate").datepicker('option', 'dateFormat', 'dd M, yy');
+
+            $("#ToDate").datepicker();
+            $("#ToDate").datepicker('option', 'dateFormat', 'dd M, yy');
+        });
+
+
+    </script>
+
+    <script type="text/javascript">
+        $("#btnprint").click(function () {
+
+            var restorepage = $('body').html();
+            var printcontent = $('#print').clone();
+            $('body').empty().html(printcontent);
+            window.print();
+            $('body').html(restorepage);
+        });
+    </script>
+}

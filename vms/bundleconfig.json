@@ -1,0 +1,154 @@
+[
+    {
+        "outputFileName": "wwwroot/css/app.css",
+        "inputFiles": [
+            "wwwroot/css/CustomPagerList.css"
+
+        ],
+        "minify": {
+            "enabled": true
+        }
+    },
+    {
+        "outputFileName": "wwwroot/css/GlobalMandatory.css",
+        "inputFiles": [
+            "wwwroot/assets/global/plugins/font-awesome/css/font-awesome.min.css",
+            "wwwroot/assets/global/plugins/simple-line-icons/simple-line-icons.min.css",
+            "wwwroot/assets/global/plugins/bootstrap/css/bootstrap.min.css",
+            "wwwroot/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+            "wwwroot/assets/global/css/components.min.css",
+            "wwwroot/assets/global/css/plugins.min.css"
+
+        ],
+        "minify": {
+            "enabled": true
+        }
+    },
+    {
+        "outputFileName": "wwwroot/css/ThemeLayout.css",
+        "inputFiles": [
+            "wwwroot/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css",
+            "wwwroot/assets/global/plugins/morris/morris.css",
+            "wwwroot/css/jquery-ui.min.css",
+            "wwwroot/assets/layouts/layout/css/layout.min.css",
+            "wwwroot/assets/layouts/layout/css/themes/darkblue.min.css",
+            "wwwroot/assets/layouts/layout/css/custom.min.css",
+            "wwwroot/css/typeahead.css",
+            "wwwroot/css/site.css"
+
+        ],
+        "minify": {
+            "enabled": true
+        }
+    },
+    {
+        "outputFileName": "wwwroot/css/toastr.css",
+        "inputFiles": [
+            "wwwroot/css/toastr.css"
+
+        ],
+        "minify": {
+            "enabled": true
+        }
+    },
+    //JS Bundle
+    {
+        "outputFileName": "wwwroot/js/site.js",
+        "inputFiles": [
+            "wwwroot/js/site.js"
+
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/CorePlugins.js",
+        "inputFiles": [
+            "wwwroot/assets/global/plugins/jquery.min.js",
+            "wwwroot/assets/global/plugins/bootstrap/js/bootstrap.min.js",
+            "wwwroot/assets/global/plugins/js.cookie.min.js",
+            "wwwroot/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+            "wwwroot/assets/global/plugins/jquery.blockui.min.js",
+            "wwwroot/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/LevelPlugins.js",
+        "inputFiles": [
+            "wwwroot/assets/global/plugins/moment.min.js",
+            "wwwroot/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js",
+            "wwwroot/assets/global/plugins/morris/morris.min.js",
+            "wwwroot/assets/global/plugins/counterup/jquery.waypoints.min.js",
+            "wwwroot/assets/global/plugins/counterup/jquery.counterup.min.js",
+            "wwwroot/assets/global/plugins/flot/jquery.flot.min.js",
+            "wwwroot/assets/global/plugins/flot/jquery.flot.resize.min.js",
+            "wwwroot/assets/global/plugins/flot/jquery.flot.categories.min.js"
+
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/Global.js",
+        "inputFiles": [
+            "wwwroot/assets/global/scripts/app.min.js",
+            "wwwroot/assets/pages/scripts/dashboard.min.js",
+            "wwwroot/assets/layouts/layout/scripts/layout.min.js",
+            "wwwroot/assets/layouts/global/scripts/quick-sidebar.min.js",
+            "wwwroot/assets/layouts/global/scripts/quick-nav.min.js"
+           ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/validation.js",
+        "inputFiles": [
+            "wwwroot/js/jquery.validate.min.js",
+            "wwwroot/js/jquery.validate.unobtrusive.min.js"
+
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/validation.min.js",
+        "inputFiles": [
+            "wwwroot/js/jquery.validate.min.js",
+            "wwwroot/js/jquery.validate.unobtrusive.min.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/toaster.js",
+        "inputFiles": [
+            "wwwroot/js/toastr.js"
+
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    }
+]
